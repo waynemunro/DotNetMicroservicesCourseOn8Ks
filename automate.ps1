@@ -16,6 +16,6 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet restore
 git add -A
 git commit -m "Nuget Package dependencies added commit"
-code .
+#code .
 
 
