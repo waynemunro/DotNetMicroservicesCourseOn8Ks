@@ -51,7 +51,7 @@ public class PlatformsController : ControllerBase
 
         if(createDto == null) return BadRequest();
 
-        var mapped = _mapper.Map<PlatformCreateDto,Platform>(createDto);
+        var mapped = _mapper.Map<Platform>(createDto);
         try
         {
             _repository.AddPlatform(mapped);
@@ -63,8 +63,6 @@ public class PlatformsController : ControllerBase
             return BadRequest(ex);
         }
         
-        return Ok();
+        return Ok(_mapper.Map<PlatformReadDto>(mapped));
     }
-
-
 }
