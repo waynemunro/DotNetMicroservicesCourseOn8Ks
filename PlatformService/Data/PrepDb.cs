@@ -4,24 +4,26 @@ public static class PrepDb
 {
     public static void PrePopulation(IApplicationBuilder app)
     {
-        using (var serviceScope = app.ApplicationServices.CreateScope())
-        {
-            var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+        using var serviceScope = app.ApplicationServices.CreateScope();
+        var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            if (context != null)
-                SeedData(context);
-        }
+
+        if (context != null)
+            SeedData(context);
     }
 
     private static void SeedData(AppDbContext context)
     {
         if (context.Platforms == null)
         {
-            throw new ArgumentNullException(nameof(context.Platforms));
+            Console.WriteLine("No Platforms Data...");
+            return;
         }
 
         if (!context.Platforms.Any())
         {
+            // TODO: log properly with a logger
+
             Console.WriteLine("Seeding Data...");
 
             context.Platforms.AddRange(
@@ -36,7 +38,5 @@ public static class PrepDb
         {
             Console.WriteLine("Data is already populated");
         }
-
     }
-
 }
