@@ -32,7 +32,7 @@ public class PlatformsController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<PlatformReadDto>?>(platformsToReturn));
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetPlatformById")]
     public ActionResult<PlatformReadDto> GetPlatformById(int id)
     {
         _logger.LogInformation("In PlatformsController about to call GetPlatformById");
@@ -62,7 +62,10 @@ public class PlatformsController : ControllerBase
             _logger.LogError("Error creating platform: ", ex);
             return BadRequest(ex);
         }
-        
-        return Ok(_mapper.Map<PlatformReadDto>(mapped));
+
+        var platformDto = _mapper.Map<PlatformReadDto>(mapped);
+        var created = CreatedAtRoute("GetPlatformById", new { Id = mapped.Id }, platformDto);
+
+        return created;
     }
 }
