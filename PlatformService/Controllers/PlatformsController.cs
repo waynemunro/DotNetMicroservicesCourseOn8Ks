@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data;
 using PlatformService.Dtos;
+using PlatformService.Models;
 
 namespace PlatformService.Controllers;
 
@@ -41,6 +42,28 @@ public class PlatformsController : ControllerBase
         if (platformToReturn == null) return NotFound();
 
         return Ok(_mapper.Map<PlatformReadDto>(platformToReturn));
+    }
+
+    [HttpPost]
+    public ActionResult<PlatformReadDto> CreatePlatform(PlatformCreateDto createDto)
+    {
+        _logger.LogInformation("In PlatformsController about to call CreatePlatform");
+
+        if(createDto == null) return BadRequest();
+
+        var mapped = _mapper.Map<PlatformCreateDto,Platform>(createDto);
+        try
+        {
+            _repository.AddPlatform(mapped);
+            _repository.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Error creating platform: ", ex);
+            return BadRequest(ex);
+        }
+        
+        return Ok();
     }
 
 
