@@ -13,8 +13,9 @@ cd .\PlatformService\
 dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet restore
 git add -A
 git commit -m "Nuget Package dependencies added commit"
-code -r PlatformService 
+#code .
 
 
